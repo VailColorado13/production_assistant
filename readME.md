@@ -27,7 +27,7 @@
   </a>
    -->
 
-<h3 align="center">Production Assistant</h3>
+<h1 align="center">Production Assistant</h1>
 
   <p align="center">
     This is a web application used in the specific case of automatically generating and filling out routine paperwork used in the advertising industry.  
