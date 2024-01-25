@@ -61,7 +61,7 @@ I built this project to automate paperwork that I do routinly for work. Using Pr
 
 ### Built With
 
-Production assistant is built with a React Frontend and Express backend. 
+Production assistant is built with a React frontend and Express backend. 
 
 <!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
