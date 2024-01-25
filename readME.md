@@ -38,7 +38,7 @@
     <a href="https://youtu.be/Nmjfql039L4">View Demo</a>
     ·
     <a href="#">View Live Site</a>
-    ·
+    
    <!-- <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
     ·
     <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
