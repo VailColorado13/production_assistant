@@ -30,18 +30,26 @@ async function extractDocxText() {
             mammoth.extractRawText({ path: filePath })
                 .then(result => {
                     const text = result.value
-                    const clientMatch = text.match(/(?<=CLIENT:)(.*)(?=CAMPAIGN:)/s)[1].trim()
-                    const jobNumberMatch = text.match(/(?<=JOB #:)(.*)(?=ISCI)/s)[1].trim()
-                    extractedData.client = clientMatch
-                    extractedData.jobNumber = jobNumberMatch
+                    let clientMatch = text.match(/(?<=CLIENT:)(.*)(?=CAMPAIGN:)/s) 
+                    let jobNumberMatch 
+                    
+                    //add conditional to account for text being written as "Job #:" and "Job:"
+                    if (text.match(/(?<=JOB #:)(.*)(?=ISCI)/s)) {
+                        jobNumberMatch = text.match(/(?<=JOB #:)(.*)(?=ISCI)/s)
+                    } else {
+                        jobNumberMatch = text.match(/(?<=JOB:)(.*)(?=ISCI)/s)
+                    }
+
+
+                    extractedData.client = clientMatch ? clientMatch[1].trim() : undefined
+                    extractedData.jobNumber = jobNumberMatch ? jobNumberMatch[1].trim() : undefined
                     console.log(extractedData)
-                
                     // Resolve the promise with the extractedData
                     resolve(extractedData)
                 })
                 .catch(error => {
                     console.error('Error extracting text:', error);
-                    reject(error);
+                    //reject(error);
                 })
         })
     })
