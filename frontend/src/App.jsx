@@ -80,6 +80,7 @@ function App() {
   }
 
   const handleDrop = (e) => {
+    console.log('dropped')
     //send request to server to clear out old files:
 //   fetch('http://localhost:1337/clear' , {
      fetch('https://react-prod-assist.onrender.com/clear' , {
