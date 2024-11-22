@@ -13,8 +13,8 @@ export default function parseTitles(titles) {
       title = title.replace(/\s\s+/g, ' ')
     
       // Remove .docx suffix
-      title = title.split('.d')[0]
-    
+      title = title.split(/\.d/i)[0]    
+      
       // Split into single words and remove single pieces of punctuation
       const regex = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\s]+$/
       return title
