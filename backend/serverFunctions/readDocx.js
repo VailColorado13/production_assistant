@@ -14,7 +14,7 @@ async function extractDocxText() {
                 return;
             }
 
-            const docxFile0 = files.find(file => /\.(docx|doc)$/.test(file))
+            const docxFile0 = files.find(file => /\.(docx|doc)$/i.test(file))
 
             if (!docxFile0) {
                 // If no matching file is found, reject with an error
