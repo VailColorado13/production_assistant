@@ -60,8 +60,8 @@ function App() {
 
    
 
-  //fetch('http://localhost:1337/test', {
-    fetch('https://react-prod-assist.onrender.com/test', {
+  fetch('http://localhost:1337/test', {
+    // fetch('https://react-prod-assist.onrender.com/test', {
       method: 'POST',
       // headers: { 'Content-Type': 'multipart/form-data' },
       body: formData,
@@ -82,8 +82,8 @@ function App() {
   const handleDrop = (e) => {
     console.log('dropped')
     //send request to server to clear out old files:
-//   fetch('http://localhost:1337/clear' , {
-     fetch('https://react-prod-assist.onrender.com/clear' , {
+   fetch('http://localhost:1337/clear' , {
+    // fetch('https://react-prod-assist.onrender.com/clear' , {
       method: 'POST',
     }).then((response) => {
       if (!response.ok){
