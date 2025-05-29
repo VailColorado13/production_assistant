@@ -6,7 +6,7 @@ import parseTitles from '../clientSideJS/parseTitles'
 import Table from './components/Table'
 import SessionCode from './components/SessionCode'
 import dateMaker from '../clientSideJS/dateMaker'
-import StatusDropZone from './components/statusDropZone'
+import StatusDropZone from './components/StatusDropZone'
 
 function App() {
   const [files, setFiles] = useState([])
