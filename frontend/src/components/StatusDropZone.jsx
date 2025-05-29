@@ -12,8 +12,8 @@ const StatusDropZone = ({tableData}) => {
     console.log(droppedFiles)
     formData.append('excelData', JSON.stringify(tableData))
     formData.append('file', droppedFiles[0])
-    fetch('http://localhost:1337/statusDocDrop', {
-      // fetch('https://react-prod-assist.onrender.com/statusDocDrop', {
+   // fetch('http://localhost:1337/statusDocDrop', {
+       fetch('https://react-prod-assist.onrender.com/statusDocDrop', {
       method: 'POST',
       body: formData,
     })
