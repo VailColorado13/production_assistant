@@ -9,6 +9,13 @@
   border-radius: 4vh;
   height: 30vh;
 }
+.fileDropAreaGreen {
+  border: 3px dashed green;
+  border-radius: 4vh;
+  width: 85vh;
+  height: 30vh;
+}
+
 .data-window {
   display: flex;
   flex-direction: column;

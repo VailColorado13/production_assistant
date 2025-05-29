@@ -5,10 +5,12 @@ const cors = require('cors')
 const multer = require('multer')
 const bodyParser = require('body-parser')
 const writeNewEstimate = require('./serverFunctions/writeNewEstimate')
+const updateStatus = require('./serverFunctions/updateStatus')
 const dateMaker = require('./serverFunctions/dateMaker')
 const zipper = require('./serverFunctions/zipper')
 const clearOldFiles = require('./serverFunctions/clearOldFiles')
 const sanitizeFilename = require('sanitize-filename')
+
 
 
 
@@ -17,15 +19,21 @@ const PORT = process.env.PORT || 1337;
 
 // Set up Multer to handle file uploads
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, './zTEMPLATE/Prelim\ Scripts', 'file0')
-    },
-    filename: function (req, file, cb) {
-      const sanitizedFilename = sanitizeFilename(file.originalname)
-      cb(null, sanitizedFilename);
+  destination: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (ext === '.doc' || ext === '.docx') {
+      cb(null, path.join(__dirname, 'zTEMPLATE', 'Prelim Scripts'));
+    } else {
+      cb(null, path.join(__dirname, 'zTEMPLATE', 'statusUpdate'));
     }
-  })
-const upload = multer({ storage: storage });
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, 'file0' + ext);
+  }
+});
+
+const upload = multer({ storage });
 
 app.use(express.json());
 app.use(cors());
@@ -43,13 +51,30 @@ app.post('/test', upload.any(), (req, res) => {
     const scripts = JSON.parse(req.body.names)
     console.log('logging names: ', scripts)
     writeNewEstimate(scripts)
-
+    //updateStatus(scripts)
     res.status(200).json({ message: 'Data received successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 })
+
+app.post('/statusDocDrop', upload.single('file'), (req, res) => {
+  try {
+    console.log('Received data:', req.body)
+    const excelData = JSON.parse(req.body.excelData)
+    updateStatus(excelData)
+
+    console.log('Received file:', req.file)
+
+    res.status(200).json({ message: 'statusDocDrop Called' })
+  } catch (error) {
+    console.error('Error parsing data:', error);
+    res.status(500).json({ error: 'Internal server error' })
+  }
+})
+
+
 
 
 
