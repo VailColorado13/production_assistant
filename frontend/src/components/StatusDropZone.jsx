@@ -39,5 +39,5 @@ const StatusDropZone = ({tableData}) => {
        )
 }
 
-export default StatusDropZone
+export default StatusDropZone;
 
