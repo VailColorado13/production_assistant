@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const Table = ( {tableData, modifyTableData} ) => {
+
   
   const [editableData, setEditableData] = useState('')
 

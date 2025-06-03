@@ -1,30 +1,55 @@
 const excel = require('exceljs')
+const readDocx = require('./readDocx.js')
 
-//update status  - needs to take the titleObect (created in ???) as well as the user-uploaded current status document and 
-    //read the status doc and determine where to start writing new entries (at what row does our loop start?)
-    //use the data from the titleObject to write in the new entries
+//worksheet.mergeCells(10,11,12,13); // top,left,bottom,right
 
-    //where does titleObject come from?
-    //is titleObject stored anywhere or does it come straight from the upload and go directly to the server
-    
+
+async function updateStatus(titleObject) {
+   const workbook = new excel.Workbook()
+   await workbook.xlsx.readFile('./zStatus/file0.xlsx')
+   const worksheet = workbook.getWorksheet('Sheet1')
+   const extractedText = await readDocx()
+   client = extractedText.client
+   
  
-    
-    
+   let startingRow = 1
+   const testColumn = worksheet.getColumn(5)
+ 
+   testColumn.eachCell((cell, rowNumber) => {
+     if (cell.value !== null && cell.value !== undefined) {
+       startingRow = rowNumber + 1
+     }
+   })
+ 
+   let nextRow = startingRow
+ 
+   for (const script in titleObject) {
+     const double = titleObject[script].double
+     const firstCode = script
+     const secondCode = titleObject[script].secondISCI
+     const title = titleObject[script].title
+     const length = titleObject[script].length
 
-    async function updateStatus (titleObject) {
-       const workbook = new excel.Workbook()
-       await workbook.xlsx.readFile('./zTEMPLATE/statusUpdate/file0.xlsx')
-       const worksheet = workbook.getWorksheet('Sheet1') 
-       
-       let startingRow = []
+     worksheet.getCell(`E${nextRow}`).value = client
+     worksheet.getCell(`F${nextRow}`).value = firstCode
+     worksheet.getCell(`G${nextRow}`).value = title
+     worksheet.getCell(`H${nextRow}`).value = `${length}`
+     nextRow++
+ 
+     if (double === true) {
+       worksheet.getCell(`F${nextRow}`).value = secondCode
+       worksheet.getCell(`G${nextRow}`).value = title
+       worksheet.getCell(`H${nextRow}`).value = length === ":30" ? ':27/03' : length === ':15' ? '12/03' : 'undefined'
+       nextRow++
+     }
+   }
+   worksheet.mergeCells(startingRow,9,nextRow-1,9); // top,left,bottom,right
+   worksheet.getCell(startingRow, 9).alignment = { vertical: 'top', horizontal: 'left', wrapText: true };
 
-       worksheet.eachRow((row) => {
-        console.log(row.getCell(5).value)
-        if (row.getCell(5).value) {startingRow++}
-       })
-
-
-    }
+   
+   await workbook.xlsx.writeFile('./zStatus/file0.xlsx')
+ }
+ 
 
 
     module.exports = updateStatus

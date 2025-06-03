@@ -17,23 +17,30 @@ const sanitizeFilename = require('sanitize-filename')
 const app = express();
 const PORT = process.env.PORT || 1337;
 
-// Set up Multer to handle file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const ext = path.extname(file.originalname).toLowerCase();
     if (ext === '.doc' || ext === '.docx') {
       cb(null, path.join(__dirname, 'zTEMPLATE', 'Prelim Scripts'));
     } else {
-      cb(null, path.join(__dirname, 'zTEMPLATE', 'statusUpdate'));
+      cb(null, path.join(__dirname, 'zStatus'));
     }
   },
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, 'file0' + ext);
+    const ext = path.extname(file.originalname).toLowerCase()
+    if (ext === '.doc' || ext === '.docx') {
+      cb(null, file.originalname); // Preserves filename and extension
+    }
+    else {
+      cb(null, 'file0.xlsx')
+    }
   }
-});
+})
 
 const upload = multer({ storage });
+
+
+
 
 app.use(express.json());
 app.use(cors());
@@ -78,10 +85,15 @@ app.post('/statusDocDrop', upload.single('file'), (req, res) => {
 
 
 
-app.get('/download', async (req, res) => {
+app.get('/downloadJobFiles', async (req, res) => {
   const date = dateMaker(new Date())
+  console.log('clicked download')
   const zip = await zipper(date)
   res.download(`./temp/jobFiles-${date}.zip`)
+})
+
+app.get('/downloadStatus', async (req, res) => {
+  res.download(`./zStatus/file0.xlsx`)
 })
 
 app.listen(PORT, () => {

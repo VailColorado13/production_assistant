@@ -7,17 +7,18 @@ import Table from './components/Table'
 import SessionCode from './components/SessionCode'
 import dateMaker from '../clientSideJS/dateMaker'
 import StatusDropZone from './components/StatusDropZone'
-
+ 
 function App() {
   const [files, setFiles] = useState([])
   const [tableData, setTableData] = useState([])
   const [userSubmittedData, setUserSubmittedData] = useState(false)
-  const [responseOK, setResponseOK] = useState(false)
+  const [ScriptResponseOK, setScriptResponseOK] = useState(false)
 
-  const download = async () => {
+
+  const downloadJobFiles = async () => {
     console.log('clicked');
     try {
-     // const response = await fetch('http://localhost:1337/download')
+     // const response = await fetch('http://localhost:1337/downloadJobFiles')
        const response = await fetch('https://react-prod-assist.onrender.com/download')
 
       if (!response.ok) {
@@ -56,22 +57,22 @@ function App() {
 
    
 
-  fetch('http://localhost:1337/test', {
-    // fetch('https://react-prod-assist.onrender.com/test', {
+  //fetch('http://localhost:1337/test', {
+     fetch('https://react-prod-assist.onrender.com/test', {
       method: 'POST',
       body: formData,
     })
       .then((response) => {
         if (response.ok) {
-          setResponseOK(true)
+          setScriptResponseOK(true)
         } else {
-          setResponseOK(false)
+          setScriptResponseOK(false)
         }
         return response.json()
       })
       .catch((error) => {
         console.error('Error sending data to the server:', error)
-        setResponseOK(false)
+        setScriptResponseOK(false)
       })
   }
 
@@ -79,8 +80,8 @@ function App() {
     e.preventDefault()
     console.log('dropped')
     //send request to server to clear out old files:
-   fetch('http://localhost:1337/clear' , {
-    // fetch('https://react-prod-assist.onrender.com/clear' , {
+  // fetch('http://localhost:1337/clear' , {
+     fetch('https://react-prod-assist.onrender.com/clear' , {
       method: 'POST',
     }).then((response) => {
       if (!response.ok) {
@@ -121,8 +122,8 @@ function App() {
         {files.length > 0 && (
           <Table tableData={tableData} modifyTableData={modifyTableData} />
         )}
-        {responseOK && (
-          <button onClick={(e) => download(e)}>Download Job Files</button>
+        {ScriptResponseOK && (
+          <button onClick={(e) => downloadJobFiles(e)}>Download Job Files</button>
         )}
         {files.length > 0 && (
           <StatusDropZone tableData = {tableData} />

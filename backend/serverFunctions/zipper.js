@@ -5,6 +5,7 @@ const dateMaker = require('./dateMaker')
 
 
 async function zipper(date) {
+  
   const currentDate = new Date();
 
   const dateString = date
@@ -21,9 +22,9 @@ async function zipper(date) {
 
     // Add each file and folder to the zip
     items.forEach(item => {
-      const itemPath = path.join(folderPath, item);
+      const itemPath = path.join(folderPath, item)
       const isDirectory = fs.statSync(itemPath).isDirectory()
-
+      
       if (isDirectory) {
         // Add the folder
         zip.addLocalFolder(itemPath, path.relative(folderPath, itemPath))
@@ -40,7 +41,7 @@ async function zipper(date) {
     // Write the zip file to the specified path
     zip.writeZip(zipFilePath);
 
-    console.log(`Folder "${folderPath}" successfully zipped to "${zipFilePath}"`);
+    console.log(`Folder "${folderPath}" successfully zipped to "${zipFilePath}"`)
   }
   zipFolder(folderPath, zipFilePath)
 

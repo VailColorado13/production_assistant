@@ -8,6 +8,10 @@ export default function parseTitles(titles) {
     
       // Remove underscores
       title = title.split('_').join(' ')
+
+      //remove open parethesis (‘) 
+      title = title.split("‘").join(' ')
+
     
       // Remove extra spaces
       title = title.replace(/\s\s+/g, ' ')
