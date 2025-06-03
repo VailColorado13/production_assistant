@@ -19,7 +19,7 @@ function App() {
     console.log('clicked');
     try {
      // const response = await fetch('http://localhost:1337/downloadJobFiles')
-       const response = await fetch('https://react-prod-assist.onrender.com/download')
+       const response = await fetch('https://react-prod-assist.onrender.com/downloadJobFiles')
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`)
